@@ -46,11 +46,11 @@ export default function DitherBackground() {
 
           const idx = (y * W + x) * 4
           if (pixel) {
-            // faint light-purple dot: #c9b3ee at very low opacity
-            data[idx]     = 201 // r
-            data[idx + 1] = 179 // g
-            data[idx + 2] = 238 // b
-            data[idx + 3] = 12  // alpha — very subtle
+            // faint neutral off-white dot at very low opacity
+            data[idx]     = 228 // r
+            data[idx + 1] = 226 // g
+            data[idx + 2] = 236 // b
+            data[idx + 3] = 11  // alpha — very subtle
           }
           // else: fully transparent — gradient shows through
         }

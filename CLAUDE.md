@@ -26,12 +26,16 @@ sitcom opinions available upon request.
   keep all colors as css variables so i can swap the whole palette easily
 - fonts: space mono for headings, jetbrains mono for body (google fonts)
 - everything lowercase
-- monospace everywhere
+- monospace everywhere 
+## 
 - generous whitespace, hairline borders, terse copy
 - drifting dithered pixel cloud background, very subtle, behind content
 - soft wireframe / low-poly centerpiece on the home hero (no glow — light bg)
 - working cmd+K / ctrl+K command palette for navigation
-- NOT neon, NOT poppy, NOT the generic dark-with-one-accent AI look
+- NOT neon, NOT poppy, NOT the generic dark-with-one-accent NOT AI look
+- NOT looking like AI - generated website
+- looking original and creative and not similar to online templates and other people's websites
+- unique experience for the user in order for them to remember me 
 - should feel hand-crafted and cozy, not templated
 
 ### design references (for the agent)
@@ -41,7 +45,7 @@ sitcom opinions available upon request.
 - conway by rankdim (rankdim.github.io) — subtle animated background option
 
 ## What pages does it have?
-- ~ (home) — hero with centerpiece, name, role, currently/prev, links, cmd+K hint
+- ~ home, name, role, currently/prev, links, cmd+K hint
 - work — experience + projects as terse tagged cards with real screenshots
 - contact — links + email + a line
 
@@ -51,7 +55,7 @@ sitcom opinions available upon request.
 
 ### about
 daksha mudumbai. cybersecurity + ml engineer. northeastern university,
-khoury college, b.s. cybersecurity, boston. gpa 3.37. grad may 2028.
+khoury college, b.s. cybersecurity, boston. grad may 2028
 
 <!-- TODO (DAKSHA): write 2-3 lines about yourself in your own voice.
      what do you care about? what do you do outside of security?

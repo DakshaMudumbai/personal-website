@@ -1,28 +1,33 @@
 @import "tailwindcss";
 
 /* ── dark theme palette ───────────────────────────────── */
+/* neutral dark base + white text, purple reserved as contrast accent.
+   swap --accent-rgb (and the two bg stops) to reskin the whole site. */
 :root {
-  /* backgrounds */
-  --bg-start:       #1a0533;
-  --bg-end:         #0d1b3e;
-  --surface:        rgba(255, 255, 255, 0.05);
-  --surface-hover:  rgba(255, 255, 255, 0.08);
+  /* purple accent, as rgb triplet so it can drive rgba() everywhere */
+  --accent-rgb:      196, 165, 252;
 
-  /* borders */
-  --border:         rgba(212, 180, 254, 0.15);
-  --border-hover:   rgba(212, 180, 254, 0.3);
-  --border-active:  rgba(212, 180, 254, 0.5);
+  /* backgrounds — deep neutral charcoal, faint purple undertone */
+  --bg-start:       #131218;
+  --bg-end:         #0b0a0e;
+  --surface:        rgba(255, 255, 255, 0.04);
+  --surface-hover:  rgba(255, 255, 255, 0.07);
 
-  /* text */
-  --text:           #e8e0f0;
-  --text-secondary: #c2b8d9;
-  --text-muted:     #8f85a6;
+  /* borders — neutral white hairlines, purple only on the active edge */
+  --border:         rgba(255, 255, 255, 0.10);
+  --border-hover:   rgba(255, 255, 255, 0.18);
+  --border-active:  rgba(var(--accent-rgb), 0.5);
 
-  /* accents */
-  --accent:         #d4b4fe;
-  --accent-blue:    #89b4fa;
-  --accent-dim:     rgba(212, 180, 254, 0.1);
-  --accent-blue-dim: rgba(137, 180, 250, 0.1);
+  /* text — pulled toward clean white/neutral */
+  --text:           #f3f1f7;
+  --text-secondary: #b7b3c2;
+  --text-muted:     #706c7e;
+
+  /* accents — purple is the contrast */
+  --accent:         rgb(var(--accent-rgb));
+  --accent-blue:    #9db4ff;
+  --accent-dim:     rgba(var(--accent-rgb), 0.12);
+  --accent-blue-dim: rgba(157, 180, 255, 0.10);
 
   /* fonts */
   --font-heading:   'Departure Mono', monospace;
@@ -101,14 +106,14 @@ a {
   color: var(--accent);
   font-size: 0.65rem;
   font-family: var(--font-label);
-  border: 1px solid rgba(212, 180, 254, 0.2);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
   white-space: nowrap;
 }
 
 .tag-blue {
   background: var(--accent-blue-dim);
   color: var(--accent-blue);
-  border-color: rgba(137, 180, 250, 0.2);
+  border-color: rgba(157, 180, 255, 0.2);
 }
 
 .link-pill {
@@ -130,7 +135,7 @@ a {
 .link-pill:hover {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(212, 180, 254, 0.08);
+  background: rgba(var(--accent-rgb), 0.08);
   transform: translateY(-1px);
 }
 
@@ -146,9 +151,9 @@ a {
 }
 
 .card:hover {
-  border-color: rgba(212, 180, 254, 0.4);
-  box-shadow: 0 0 15px rgba(212, 180, 254, 0.1);
-  background: rgba(0, 0, 0, 0.55);
+  border-color: rgba(var(--accent-rgb), 0.45);
+  box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.12);
+  background: rgba(255, 255, 255, 0.06);
   transform: translateY(-2px);
 }
 
