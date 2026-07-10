@@ -1,4 +1,4 @@
-import { links, profile } from '../data/content'
+import { links, profile, currently } from '../data/content'
 import Centerpiece from '../components/Centerpiece'
 
 export default function Home() {
@@ -54,12 +54,9 @@ export default function Home() {
           {profile.role}
         </p>
 
-        {/* currently / prev */}
+        {/* currently — most recent box, derived from experience[0] */}
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.25rem',
             marginBottom: '2.25rem',
             fontSize: '0.78rem',
             fontFamily: 'var(--font-body)',
@@ -67,16 +64,8 @@ export default function Home() {
         >
           <p style={{ color: 'var(--text-secondary)', margin: 0 }}>
             <span style={{ color: 'var(--text-muted)' }}>currently: </span>
-            <span style={{ color: 'var(--text)' }}>{profile.currently}</span>
+            <span style={{ color: 'var(--text)' }}>{currently}</span>
           </p>
-          {profile.prev.map((p, i) => (
-            <p key={i} style={{ color: 'var(--text-secondary)', margin: 0 }}>
-              {i === 0 && (
-                <span style={{ color: 'var(--text-muted)' }}>prev: </span>
-              )}
-              <span>{p}</span>
-            </p>
-          ))}
         </div>
 
         {/* link pills */}

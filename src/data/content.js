@@ -8,8 +8,6 @@ export const profile = {
   degree: 'b.s. cybersecurity',
   location: 'boston',
   grad: 'may 2028',
-  currently: 'cybersecurity + ai intern @ end of an era',
-  prev: ['ml security @ sree tech', 'data science @ sree tech'],
 }
 
 // TODO (DAKSHA): swap these 2-3 lines for something in your own voice.
@@ -95,13 +93,24 @@ export const experience = [
   },
 ]
 
+// ─────────────────────────────────────────────────────────────
+// DERIVED — do not edit by hand. the home page reads these.
+// the FIRST item in `experience` above is always "currently";
+// everything after it becomes "prev", newest first. add a new
+// box to the TOP of `experience` and the home page updates itself.
+// ─────────────────────────────────────────────────────────────
+const summarize = (job) => `${job.title} @ ${job.company}`
+
+export const currently = experience.length ? summarize(experience[0]) : ''
+export const prev = experience.slice(1).map(summarize)
+
 export const projects = [
   {
     title: 'phishing detection — end to end mlops',
     date: 'nov — dec 2025',
     description:
       'full pipeline. 5 ensemble models, champion-challenger, mlflow tracking, fastapi + docker, ci/cd to aws, drift monitoring. 90%+ accuracy.',
-    tags: ['fastapi', 'docker', 'mlflow', 'aws'],
+    tags: ['fastapi', 'docker', 'mlflow', 'aws', 'etl pipelines', 'python', 'ensemble ml'],
     github: 'https://github.com/DakshaMudumbai/NetworkSecurity',
   },
   {
