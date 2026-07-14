@@ -6,7 +6,7 @@ export default function Work() {
     <div className="page-container animate-fade-in">
       <h1 className="section-heading" style={{ marginBottom: '2rem' }}>experience</h1>
 
-      <div>
+      <div className="card-focus-list">
         {experience.map((job, i) => (
           <ExperienceCard key={i} {...job} />
         ))}

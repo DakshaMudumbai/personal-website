@@ -1,3 +1,5 @@
+import { RichText } from '../utils/richText'
+
 export default function ExperienceCard({ title, company, date, location, description, tags }) {
   return (
     <article className="card" style={{ marginBottom: '1rem' }}>
@@ -62,7 +64,7 @@ export default function ExperienceCard({ title, company, date, location, descrip
         ).map((sentence, i) => (
           <div key={i} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.25rem' }}>
             <span style={{ color: 'var(--accent)', opacity: 0.7, flexShrink: 0 }}>▹</span>
-            <span>{sentence}</span>
+            <span><RichText text={sentence} /></span>
           </div>
         ))}
       </div>

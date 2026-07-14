@@ -1,9 +1,29 @@
-import { profile, about, stack, interests } from '../data/content'
+import { profile, stack, certifications, courses, interests } from '../data/content'
 
 export default function About() {
   return (
     <div className="page-container animate-fade-in">
       <h1 className="section-heading" style={{ marginBottom: '2rem' }}>about</h1>
+
+      {/* role + focus — terminal-style files */}
+      <section style={{ marginBottom: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <div>
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-label)', margin: '0 0 0.4rem' }}>
+            <span style={{ color: 'var(--accent-blue)' }}>$ </span>cat role.txt
+          </p>
+          <p style={{ fontSize: '1.1rem', color: 'var(--text)', fontFamily: 'var(--font-heading)', margin: 0 }}>
+            {profile.role}
+          </p>
+        </div>
+        <div>
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-label)', margin: '0 0 0.4rem' }}>
+            <span style={{ color: 'var(--accent-blue)' }}>$ </span>cat focus.txt
+          </p>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.75, margin: 0 }}>
+            {profile.focus}
+          </p>
+        </div>
+      </section>
 
       {/* stack section */}
       <section style={{ marginBottom: '2.5rem' }}>
@@ -24,10 +44,45 @@ export default function About() {
               <h3 style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-label)', margin: 0, marginTop: '0.15rem' }}>{category}</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                 {items.map(item => (
-                  <span key={item} className="tag tag-blue">{item}</span>
+                  <span key={item} className="tag">{item}</span>
                 ))}
               </div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* certifications section */}
+      <section style={{ marginBottom: '2.5rem' }}>
+        <h2 style={{ fontSize: '0.85rem', color: 'var(--text)', fontFamily: 'var(--font-heading)', marginBottom: '1rem' }}>certifications</h2>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          {certifications.map((cert, i) => (
+            <li
+              key={i}
+              style={{
+                display: 'flex',
+                alignItems: 'baseline',
+                gap: '0.6rem',
+                fontSize: '0.85rem',
+                color: 'var(--text)',
+              }}
+            >
+              <span style={{ color: 'var(--accent)', fontSize: '0.7rem' }}>✓</span>
+              <span>{cert.name}</span>
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', fontFamily: 'var(--font-label)' }}>
+                {cert.issuer}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* courses section */}
+      <section style={{ marginBottom: '2.5rem' }}>
+        <h2 style={{ fontSize: '0.85rem', color: 'var(--text)', fontFamily: 'var(--font-heading)', marginBottom: '1rem' }}>coursework</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+          {courses.map(course => (
+            <span key={course} className="tag">{course}</span>
           ))}
         </div>
       </section>
@@ -45,59 +100,6 @@ export default function About() {
         </ul>
       </section>
 
-      {/* bio section */}
-      <section>
-        <h2 style={{ fontSize: '0.85rem', color: 'var(--text)', fontFamily: 'var(--font-heading)', marginBottom: '1rem' }}>bio</h2>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.6rem',
-          }}
-        >
-          {about.map((line, i) => (
-            <p
-              key={i}
-              style={{
-                fontSize: '0.82rem',
-                color: 'var(--text-secondary)',
-                lineHeight: 1.75,
-                margin: 0,
-              }}
-            >
-              {line}
-            </p>
-          ))}
-        </div>
-      </section>
-
-      {/* school / meta */}
-      <div
-        style={{
-          marginTop: '1.75rem',
-          paddingTop: '1.25rem',
-          borderTop: '1px solid var(--border)',
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-          fontSize: '0.75rem',
-          fontFamily: 'var(--font-label)',
-          color: 'var(--text-muted)',
-        }}
-      >
-        <span>
-          <span style={{ color: 'var(--accent)' }}>school: </span>
-          {profile.school}
-        </span>
-        <span>
-          <span style={{ color: 'var(--accent)' }}>degree: </span>
-          {profile.degree}
-        </span>
-        <span>
-          <span style={{ color: 'var(--accent)' }}>grad: </span>
-          {profile.grad}
-        </span>
-      </div>
     </div>
   )
 }

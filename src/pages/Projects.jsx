@@ -6,7 +6,7 @@ export default function Projects() {
     <div className="page-container animate-fade-in">
       <h1 className="section-heading" style={{ marginBottom: '2rem' }}>projects</h1>
 
-      <div>
+      <div className="card-focus-list">
         {projects.map((project, i) => (
           <ProjectCard key={i} {...project} />
         ))}

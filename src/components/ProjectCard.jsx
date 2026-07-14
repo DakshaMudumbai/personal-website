@@ -1,4 +1,4 @@
-
+import { RichText } from '../utils/richText'
 
 export default function ProjectCard({ title, date, description, tags, github }) {
   return (
@@ -55,7 +55,7 @@ export default function ProjectCard({ title, date, description, tags, github }) 
         ).map((sentence, i) => (
           <div key={i} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.25rem' }}>
             <span style={{ color: 'var(--accent)', opacity: 0.7, flexShrink: 0 }}>▹</span>
-            <span>{sentence}</span>
+            <span><RichText text={sentence} /></span>
           </div>
         ))}
       </div>

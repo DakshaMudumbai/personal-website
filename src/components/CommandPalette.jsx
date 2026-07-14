@@ -56,8 +56,10 @@ function CommandPaletteInner({ onClose }) {
     } else if (e.key === 'Enter') {
       if (filtered[currentIdx]) select(filtered[currentIdx])
     } else {
-      // check if it matches any defined shortcuts
-      const match = commandPaletteItems.find(item => item.shortcut === e.key)
+      // quick-jump: a letter shortcut, or a page number (1–4) like the home page
+      const match = commandPaletteItems.find(
+        item => item.shortcut === e.key || String(item.num) === e.key
+      )
       if (match) {
         e.preventDefault()
         select(match)
@@ -199,14 +201,27 @@ function CommandPaletteInner({ onClose }) {
                   transition: 'background 0.1s, border-color 0.1s',
                 }}
               >
-                <span
-                  style={{
-                    fontSize: '0.82rem',
-                    fontFamily: 'var(--font-body)',
-                    color: i === currentIdx ? 'var(--text)' : 'var(--text-secondary)',
-                  }}
-                >
-                  {item.label}
+                <span style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+                  {item.num != null && (
+                    <span
+                      style={{
+                        fontSize: '0.72rem',
+                        fontFamily: 'var(--font-label)',
+                        color: 'var(--accent-blue)',
+                      }}
+                    >
+                      {item.num}
+                    </span>
+                  )}
+                  <span
+                    style={{
+                      fontSize: '0.82rem',
+                      fontFamily: 'var(--font-body)',
+                      color: i === currentIdx ? 'var(--text)' : 'var(--text-secondary)',
+                    }}
+                  >
+                    {item.label}
+                  </span>
                 </span>
                 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

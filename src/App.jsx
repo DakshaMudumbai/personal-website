@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 
 import DitherBackground from './components/DitherBackground'
 import Nav from './components/Nav'
@@ -14,6 +14,11 @@ import Blog from './pages/Blog'
 
 export default function App() {
   const [cmdPalOpen, setCmdPalOpen] = useState(false)
+
+  // home is its own full-screen terminal — nav is hidden there,
+  // shown on every other page.
+  const location = useLocation()
+  const showNav = location.pathname !== '/'
 
   // global cmd+K / ctrl+K listener
   useEffect(() => {
@@ -30,7 +35,7 @@ export default function App() {
   return (
     <>
       <DitherBackground />
-      <Nav onCmdK={() => setCmdPalOpen(true)} />
+      {showNav && <Nav onCmdK={() => setCmdPalOpen(true)} />}
       <CommandPalette
         open={cmdPalOpen}
         onClose={() => setCmdPalOpen(false)}
@@ -41,7 +46,7 @@ export default function App() {
           display: 'flex',
           flexDirection: 'column',
           minHeight: '100vh',
-          paddingTop: '44px', /* nav height */
+          paddingTop: showNav ? '44px' : '0', /* nav height, only when shown */
         }}
       >
         <main style={{ flex: 1 }}>

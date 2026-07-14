@@ -1,114 +1,207 @@
-import { links, profile, currently } from '../data/content'
-import Centerpiece from '../components/Centerpiece'
+import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { profile, currently, about } from '../data/content'
+import SocialBox from '../components/SocialBox'
+import HomeSpecs from '../components/HomeSpecs'
+
+// sections you can type/click to navigate to
+const sections = [
+  { n: 1, label: 'about', path: '/about' },
+  { n: 2, label: 'work', path: '/work' },
+  { n: 3, label: 'projects', path: '/projects' },
+  { n: 4, label: 'blog', path: '/blog' },
+]
+
+// `$ cmd`
+function Cmd({ children }) {
+  return (
+    <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+      <span style={{ color: 'var(--accent)' }}>$ </span>
+      {children}
+    </p>
+  )
+}
+
+// indented `→ output`
+function Out({ children, color = 'var(--text-secondary)', size = '0.95rem', transform = 'lowercase' }) {
+  return (
+    <p
+      style={{
+        margin: '0.4rem 0 0',
+        paddingLeft: '1rem',
+        fontSize: size,
+        color,
+        lineHeight: 1.85,
+        textTransform: transform,
+      }}
+    >
+      <span style={{ color: 'var(--accent-blue)' }}>→ </span>
+      {children}
+    </p>
+  )
+}
+
+// bolds target phrases inside a bio line so they stand out
+const EMPHASIS = ['cybersecurity major', 'focus in applied ml']
+function withEmphasis(line) {
+  const escaped = EMPHASIS.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  const pattern = new RegExp(`(${escaped.join('|')})`, 'gi')
+  return line.split(pattern).map((part, i) =>
+    EMPHASIS.some(p => p.toLowerCase() === part.toLowerCase())
+      ? <strong key={i} style={{ color: 'var(--text)', fontWeight: 700 }}>{part}</strong>
+      : part
+  )
+}
+
+// one command + its output, with spacing below
+function Block({ cmd, children }) {
+  return (
+    <div style={{ marginBottom: '1.5rem' }}>
+      <Cmd>{cmd}</Cmd>
+      {children}
+    </div>
+  )
+}
 
 export default function Home() {
+  const navigate = useNavigate()
+  const inputRef = useRef(null)
+  const [value, setValue] = useState('')
+  const [error, setError] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    const raw = value.trim().toLowerCase()
+    if (!raw) return
+
+    // number or section name
+    const match = sections.find(s => String(s.n) === raw || s.label === raw)
+    if (match) {
+      navigate(match.path)
+      return
+    }
+    // home aliases
+    if (raw === '~' || raw === 'home' || raw === 'cd ~') {
+      setValue('')
+      setError('')
+      return
+    }
+    // otherwise: not found
+    setError(`command not found: ${raw} — try a number 1–${sections.length} or a name`)
+    setValue('')
+  }
+
   return (
-    <div className="animate-fade-in">
-      {/* ── hero ────────────────────────────────────────────── */}
-      <section
-        id="hero"
-        style={{
-          minHeight: 'calc(100vh - 44px)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          padding: '4rem 1.5rem 3rem',
-          gap: '0',
-        }}
-      >
-        {/* centerpiece */}
-        <div
-          style={{
-            marginBottom: '2.5rem',
-            opacity: 0.65,
-          }}
-        >
-          <Centerpiece size={72} />
-        </div>
+    <section
+      className="animate-fade-in"
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '4rem clamp(1.5rem, 7vw, 6rem) 4rem',
+      }}
+      onClick={() => inputRef.current?.focus()}
+    >
+      <SocialBox />
 
-        {/* name */}
-        <h1
-          style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: 'clamp(1.5rem, 4vw, 2.25rem)',
-            fontWeight: 400,
-            color: 'var(--text)',
-            marginBottom: '0.4rem',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          {profile.name}
-        </h1>
-
-        {/* role */}
+      <div className="home-layout">
+      <div style={{ flex: '1 1 480px', maxWidth: '820px', minWidth: 0, fontFamily: 'var(--font-body)' }}>
+        {/* session header — flavor */}
         <p
           style={{
-            fontSize: '0.85rem',
-            color: 'var(--text-secondary)',
-            marginBottom: '2rem',
-            fontFamily: 'var(--font-body)',
+            margin: '0 0 1.75rem',
+            fontSize: '0.68rem',
+            color: 'var(--text-muted)',
+            fontFamily: 'var(--font-label)',
           }}
         >
-          {profile.role}
+          {profile.handle}@khoury:~ — {profile.location}
         </p>
 
-        {/* currently — most recent box, derived from experience[0] */}
-        <div
-          style={{
-            marginBottom: '2.25rem',
-            fontSize: '0.78rem',
-            fontFamily: 'var(--font-body)',
-          }}
-        >
-          <p style={{ color: 'var(--text-secondary)', margin: 0 }}>
-            <span style={{ color: 'var(--text-muted)' }}>currently: </span>
-            <span style={{ color: 'var(--text)' }}>{currently}</span>
+        <Block cmd="whoami">
+          <Out color="var(--text)" size="clamp(1.6rem, 4vw, 2.4rem)" transform="none">
+            {profile.name}
+          </Out>
+        </Block>
+
+        <Block cmd="cat role.txt">
+          <Out size="1.05rem">{profile.role}</Out>
+        </Block>
+
+        <Block cmd="cat focus.txt">
+          <Out size="1.05rem">{profile.focus}</Out>
+        </Block>
+
+        <Block cmd="about --me">
+          {about.map((line, i) => (
+            <Out key={i} size="1.15rem">{withEmphasis(line)}</Out>
+          ))}
+        </Block>
+
+        <Block cmd="status --now">
+          <Out color="var(--text)" size="1.05rem">{currently}</Out>
+        </Block>
+
+        {/* navigable sections menu */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <Cmd>ls sections/</Cmd>
+          <div
+            style={{
+              marginTop: '0.5rem',
+              paddingLeft: '1rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.3rem',
+            }}
+          >
+            {sections.map(s => (
+              <button
+                key={s.n}
+                type="button"
+                className="term-link"
+                onClick={() => navigate(s.path)}
+                style={{ fontSize: '1rem' }}
+              >
+                <span style={{ color: 'var(--accent-blue)' }}>{s.n}: </span>
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* live interactive prompt */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', gap: '0.1rem' }}>
+          <span style={{ color: 'var(--accent)', fontSize: '1rem' }}>$&nbsp;</span>
+          <input
+            ref={inputRef}
+            className="term-input"
+            value={value}
+            onChange={e => { setValue(e.target.value); if (error) setError('') }}
+            placeholder="type a number or name, then enter…"
+            autoFocus
+            autoComplete="off"
+            spellCheck="false"
+            aria-label="terminal navigation input"
+          />
+        </form>
+
+        {/* error output */}
+        {error && (
+          <p style={{ margin: '0.5rem 0 0', paddingLeft: '1rem', fontSize: '0.85rem', color: 'var(--accent)' }}>
+            {error}
           </p>
-        </div>
+        )}
 
-        {/* link pills */}
-        <div
-          style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '2.5rem' }}
-        >
-          <a
-            id="hero-github"
-            href={links.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-pill"
-          >
-            github
-          </a>
-          <a
-            id="hero-linkedin"
-            href={links.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-pill"
-          >
-            linkedin
-          </a>
-          <a
-            id="hero-email"
-            href={`mailto:${links.email}`}
-            className="link-pill"
-          >
-            email
-          </a>
-        </div>
-
-        {/* cmd+K hint */}
+        {/* cmd+k hint */}
         <p
           style={{
             fontSize: '0.7rem',
             color: 'var(--text-muted)',
-            fontFamily: 'var(--font-body)',
-            margin: 0,
+            marginTop: '2rem',
           }}
         >
-          press{' '}
+          or press{' '}
           <kbd
             style={{
               padding: '0.1rem 0.35rem',
@@ -122,10 +215,12 @@ export default function Home() {
           >
             ctrl+k
           </kbd>
-          {' '}to navigate
+          {' '}for the command palette
         </p>
-      </section>
+      </div>
 
-    </div>
+      <HomeSpecs />
+      </div>
+    </section>
   )
 }
